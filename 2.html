@@ -1,33 +1,37 @@
 <!--head, body(본문), html 태그 필수-->
+<!-- style안에 있는a => selector, color => 속성, black => value -->
 <!doctype html>
 <html>
 <head>
     <title>캬캬하하호호의 HTML 코딩연습 - CSS</title>
     <meta charset="utf-8">
-    <!--웹브라우저에게 utf-8형식으로 읽어들어라 -->
+    <link rel="stylesheet" href="style.css"> <!--css 파일의 내용을 가져오기-->
 </head>
-<!-- option 키 누르고 해당줄 선택해서 한번에 작성가능 -->
 <body>
     <h1><a href="index.html">WEB</a></h1>
-    <ol>
-        <li><a href="1.html">html</a></li>
-        <li><a href="2.html">css</a></li>
-        <li><a href="3.html">JavaScript</a></li>
-    </ol>
-    <!--li -> list 만들때 사용
-        ul -> unorderd list, ol -> unordered list 자동으로 앞에 숫자를 부여해줌 
-    ol, ul 은 부모, li는 자식-->
+    <div id="qqq">
+        <ol>
+            <li><a href="1.html">HTML</a></li>
+            <li><a href="2.html">CSS</a></li>
+            <!-- 
+                class="@@" => 클래스 부여, style 에서 클래스를 받을수 있는 선택자는 "." 찍고 클래스명, 스페이스바로 여러가지 클래스를 부여할 수 있음
+                "#"은 id를 받을수 있음
+                우선순위는 id > class > selecter 순서(id는 유일무이한 값, )
+                같은 것에서는 나중에 나온게 힘이 더 쌤
+            -->
+            <li><a href="3.html">JavaScript</a></li>
+        </ol>
+        <div id="article">
+            <h2>CSS란 무엇인가?</h2>
+            <p>
+                기존의 HTML은 웹 문서를 다양하게 설계하고 수시로 변경하는데 많은 제약이 따르는데, 이를 보완하기 위해 만들어진 것이 스타일 시트이고 스타일 시트의 표준안이 바로 CSS이다. 간단히 스타일 시트라고도 한다.
 
-    <h2>CSS이란 무엇인가?</h2>
-    <a href="https://www.w3.org/TR/2011/WD-html5-20110405/" target="_blank" title="HTML5 specification">hypertext</a>
-    <!--a -> 링크를 만들때 사용, 닷이라는 뜻, ref->참조, target 새탭으로열건지 그탭으로 열건지, title 링크위에 마우스올렸을때 나타날내용-->
-    <p>
-        기존의 HTML은 웹 문서를 다양하게 설계하고 수시로 변경하는데 많은 제약이 따르는데, 이를 보완하기 위해 만들어진 것이 스타일 시트이고 스타일 시트의 표준안이 바로 CSS이다. 간단히 스타일 시트라고도 한다.
+                HTML을 이용해서 웹 페이지를 제작할 경우 전반적인 틀에서 세세한 글꼴 하나 하나를 일일이 지정해주어야 하지만, 웹 페이지의 스타일(작성형식)을 미리 저장해 두면 웹 페이지의 한 가지 요소만 변경해도 관련되는 전체 페이지의 내용이 한꺼번에 변경되므로, 문서 전체의 일관성을 유지할 수 있고 작업 시간도 단축된다.
 
-        HTML을 이용해서 웹 페이지를 제작할 경우 전반적인 틀에서 세세한 글꼴 하나 하나를 일일이 지정해주어야 하지만, 웹 페이지의 스타일(작성형식)을 미리 저장해 두면 웹 페이지의 한 가지 요소만 변경해도 관련되는 전체 페이지의 내용이 한꺼번에 변경되므로, 문서 전체의 일관성을 유지할 수 있고 작업 시간도 단축된다.
-
-        따라서 웹 개발자들은 보다 풍부한 디자인으로 웹을 설계할 수 있고, 글자의 크기, 글자체, 줄간격, 배경 색상, 배열위치 등을 자유롭게 선택하거나 변경할 수 있으며 유지·보수도 간편하게 할 수 있다.
-        [네이버 지식백과] CSS [cascading style sheets] (두산백과)
-    </p>
+                따라서 웹 개발자들은 보다 풍부한 디자인으로 웹을 설계할 수 있고, 글자의 크기, 글자체, 줄간격, 배경 색상, 배열위치 등을 자유롭게 선택하거나 변경할 수 있으며 유지·보수도 간편하게 할 수 있다.
+                [네이버 지식백과] CSS [cascading style sheets] (두산백과)
+            </p>
+        </div>
+    </div>
 </body>
 </html>
