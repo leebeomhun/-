@@ -28,7 +28,7 @@
       </header>
 
     <div class="bid-calculator hidden">
-        <div class="container text-xs sm:text-sm md:text-base">
+        <div class="font-bold container text-xs sm:text-sm md:text-base">
             <div>
                 <label for="itemPrice">아이템 거래소 가격:</label>
                 <input type="number" id="itemPrice" placeholder="아이템 가격을 입력하세요">
@@ -39,9 +39,9 @@
                     <option value="8">8인</option>
                 </select>
                 
-                <button onclick="calculateBid()">계산</button>
+                <button onclick="calculateBid()" class="px-4 py-2 bg-red-500 font-bold text-white rounded hover:bg-red-700 transition duration-300">계산</button>
             </div>
-            <div class="result-container">
+            <div class="font-bold text-xs sm:text-sm md:text-base result-container">
                 <div class="result">
                     <p>균등분배가격: <span id="uniformDistributionPrice">0</span></p>
                 </div>
@@ -54,9 +54,13 @@
     </div>
     
     <main class="flex flex-col items-center justify-center min-h-screen">
-        <h1 class="text-6xl font-bold mb-4">로스트아크 도구 모음</h1>
-        <footer class="flex justify-center items-center space-x-2">
-        </footer>
+        <!-- 캐릭터 검색 부분 시작 -->
+        <div class="character-search">
+            <input type="text" id="characterName" placeholder="캐릭터명을 입력하세요" class="input border-2 border-gray-300 p-2 rounded">
+            <button onclick="searchCharacter()" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition duration-300">캐릭터 검색</button>
+        </div>
+        <div id="characterInfo" class="mt-4"></div>
+        <!-- 캐릭터 검색 부분 끝 -->
     </main>
     <div>
         <p class="flex justify-center items-center space-x-2text-xs">로스트아크 도구 모음</p>
