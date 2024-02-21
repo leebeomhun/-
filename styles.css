@@ -88,3 +88,82 @@ input, select, button {
         flex-direction: column; /* 결과 항목을 옆으로 배열 */
     }  
 }
+.tooltip {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    margin: auto; /* 변경된 부분 */
+    
+    /* 추가된 부분 */
+    width: auto;
+    min-width: 150px; /* 최소 너비 설정 */
+    max-width: calc(100vw - 40px); /* 최대 너비 설정 */
+    font-size: 13px
+}
+
+/* 툴팁 위치 조절 */
+@media (max-width: 768px) {
+    .tooltip .tooltiptext {
+        bottom: auto;
+        top: 100%;
+        margin-top: -10px;
+        left: 50%; /* 툴팁 가로 중앙 정렬 */
+        transform: translateX(-50%); /* 툴팁 가로 중앙 정렬 */
+    }
+}
+  
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }
+  .container {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+  }
+  
+  .left-section {
+    flex: 1;
+    margin-right: 20px;
+  }
+
+  .left-section img {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: auto;
+    height: 300px;
+    object-fit: cover; /* 이미지가 컨테이너 비율을 벗어나지 않도록 조정 */
+  }
+
+  .right-section {
+    flex: 2;
+  }
+  
+  .stat-section  {
+    flex: 1
+  }
+  .equipment-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.equipment-section {
+    margin-right: 20px;
+    flex: 1
+}
+.accessory-section{
+    flex: 2;
+}
+
+
