@@ -107,17 +107,16 @@ input, select, button {
     /* 추가된 부분 */
     width: auto;
     min-width: 150px; /* 최소 너비 설정 */
-    max-width: calc(100vw - 40px); /* 최대 너비 설정 */
+    max-width: 90vw; /* 뷰포트 너비의 90%로 최대 너비 설정 */
     font-size: 13px
 }
 
 /* 툴팁 위치 조절 */
 @media (max-width: 768px) {
     .tooltip .tooltiptext {
-        bottom: auto;
-        top: 100%;
-        margin-top: -10px;
-        left: 50%; /* 툴팁 가로 중앙 정렬 */
+        position: absolute;
+        bottom: 100%;
+        margin-left: 100%;
         transform: translateX(-50%); /* 툴팁 가로 중앙 정렬 */
     }
 }
@@ -165,5 +164,20 @@ input, select, button {
 .accessory-section{
     flex: 2;
 }
-
+/* 팝업 스타일 */
+#popupContainer {
+    display: none;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(10, 10, 10);
+    border-radius : 10px;
+    padding: 20px;
+    z-index: 1000;
+}
+.equipment-item img {
+    cursor: pointer;
+}
 
