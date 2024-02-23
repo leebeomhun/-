@@ -51,13 +51,17 @@ async function calculateBid() {
   document.getElementById('maxValue').textContent = maxValue.toFixed(0);
 }
 
-fetch('/.netlify/functions/fetch-data')
-  .then(response => response.json())
-  .then(data => {
-    console.log(data);
-    // 데이터 처리
-  })
-  .catch(error => console.error(error));
+// Netlify Function을 사용하여 데이터를 가져오는 함수
+function fetchData() {
+    fetch('/.netlify/functions/fetch-data')
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        // 데이터 처리 로직
+        displayCharacterData(data); // 예제 함수, 실제 구현 필요
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  }
 
 function showPopup(name, basicEffect, additionalEffect, elixirEffectHTML) {
     let popupContent = `<h3>${name}</h3>`;
@@ -86,18 +90,16 @@ document.getElementById('closePopup').addEventListener('click', function() {
 });
 
 function searchCharacter() {
-    var characterInfoHTML = ''; // characterInfoHTML 변수 초기화
-    var characterName = document.getElementById('characterName').value;
-    var armoriesEndpoint = `https://developer-lostark.game.onstove.com/armories/characters/${encodeURIComponent(characterName)}`;
-    document.getElementById('equipmentList').innerHTML = ''; // 장비 리스트 컨테이너 초기화
+    let characterInfoHTML = ''; // characterInfoHTML 변수 초기화
+    const characterName = document.getElementById('characterName').value;
+    
+    if (!characterName) {
+      alert('캐릭터 이름을 입력해주세요.');
+      return;
+    }
 
-    fetch(armoriesEndpoint, {
-        method: 'GET',
-        headers: {
-            'accept': 'application/json',
-            'authorization': 'bearer ${process.env.lostark_API_KEY}' // 보안 관련 주의 사항에 따라 수정
-        }
-    })
+    // Netlify Function을 호출하여 캐릭터 정보를 검색
+    fetch(`/.netlify/functions/fetch-data?name=${encodeURIComponent(characterName)}`)
     .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -105,8 +107,7 @@ function searchCharacter() {
         return response.json();
     })
     .then(data => {
-        var armoriesData = data;
-        var profile = armoriesData.ArmoryProfile;
+        const profile = data.ArmoryProfile; // 'data' 형식과 내용은 실제 응답 데이터에 따라 다를 수 있습니다.
         characterInfoHTML += `
         <div class="container">
             <div class="left-section">
