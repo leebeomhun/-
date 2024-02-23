@@ -1,7 +1,7 @@
 // functions/fetch-data.js
-const fetch = require('node-fetch');
+import fetch from 'node-fetch';
 
-exports.handler = async function(event, context) {
+export async function handler(event, context) {
   // 환경변수에서 API 키 가져오기
   const apiKey = process.env.LOSTARK_API_KEY;
 
