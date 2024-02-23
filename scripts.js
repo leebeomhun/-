@@ -51,6 +51,14 @@ async function calculateBid() {
   document.getElementById('maxValue').textContent = maxValue.toFixed(0);
 }
 
+fetch('/functions/fetch-data')
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
+    // 데이터 처리
+  })
+  .catch(error => console.error(error));
+
 function showPopup(name, basicEffect, additionalEffect, elixirEffectHTML) {
     let popupContent = `<h3>${name}</h3>`;
 
@@ -87,7 +95,7 @@ function searchCharacter() {
         method: 'GET',
         headers: {
             'accept': 'application/json',
-            'authorization': 'bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IktYMk40TkRDSTJ5NTA5NWpjTWk5TllqY2lyZyIsImtpZCI6IktYMk40TkRDSTJ5NTA5NWpjTWk5TllqY2lyZyJ9.eyJpc3MiOiJodHRwczovL2x1ZHkuZ2FtZS5vbnN0b3ZlLmNvbSIsImF1ZCI6Imh0dHBzOi8vbHVkeS5nYW1lLm9uc3RvdmUuY29tL3Jlc291cmNlcyIsImNsaWVudF9pZCI6IjEwMDAwMDAwMDA0NTY2NDAifQ.pY2pJBU63yCBuphlcFGiJp9zteOBdbbwsKBYgyfmiKTqzHjqkhFS6wCv2t2NZtZ_IXbqaMY6QPS8ykhkU_2lizja8sB9BSjkZFiX9aZacEBTO-rgWhhfdCgXZ1yjHJwWqf3rvVd3G94oaF2AGpYBIx4HmHKKY36R1jC8gdv6-Zrz_J8MgbCjGC7P7NqEeAOeyxzkrCESSlPWr4pf6MfvZjvy6IBKfOtIC4sYw_qdpC6HvJtH6oSW12wxeR6Vh43R8atlqX-aMoNdmP2ST7coFqqdX-TIn4pHNLJ014NQXDbuqORDMAdHn638CuiiBLlGJkE0zzhXZGgeYae-2cdpTQ' // 보안 관련 주의 사항에 따라 수정
+            'authorization': 'bearer lostark_API_KEY' // 보안 관련 주의 사항에 따라 수정
         }
     })
     .then(response => {
