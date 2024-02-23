@@ -2,7 +2,7 @@
 const fetch = require('node-fetch');
 
 exports.handler = async (event, context) => {
-  const API_ENDPOINT = 'https://example.com/data';
+  const API_ENDPOINT = 'https://developer-lostark.game.onstove.com';
   const lostark_API_KEY = process.env.lostark_API_KEY; // 환경변수에서 API 키 가져오기
 
   try {

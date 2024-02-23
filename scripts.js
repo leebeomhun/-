@@ -51,7 +51,7 @@ async function calculateBid() {
   document.getElementById('maxValue').textContent = maxValue.toFixed(0);
 }
 
-fetch('/functions/fetch-data')
+fetch('/.netlify/functions/fetch-data')
   .then(response => response.json())
   .then(data => {
     console.log(data);
@@ -95,7 +95,7 @@ function searchCharacter() {
         method: 'GET',
         headers: {
             'accept': 'application/json',
-            'authorization': 'bearer lostark_API_KEY' // 보안 관련 주의 사항에 따라 수정
+            'authorization': 'bearer ${process.env.lostark_API_KEY}' // 보안 관련 주의 사항에 따라 수정
         }
     })
     .then(response => {
