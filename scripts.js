@@ -83,7 +83,14 @@ function searchCharacter() {
 
     // 장비 리스트 컨테이너 초기화
     document.getElementById('equipmentList').innerHTML = '';
-
+    var existingItemsContainer = document.querySelector('.items-container');
+if (existingItemsContainer) {
+    existingItemsContainer.innerHTML = '';
+} else {
+    itemsContainer = document.createElement('div');
+    itemsContainer.className = "items-container";
+    document.getElementById('equipmentList').appendChild(itemsContainer);
+}
     // 캐릭터 기본 정보를 가져옴
     fetch(armoriesEndpoint, {
         method: 'GET',
@@ -117,29 +124,29 @@ function displayCharacterInfo(data) {
             </div>
             <div class="right-section">
                 <div class="basic-info-section">
-                    <p>서버 이름: ${profile.ServerName}</p>
-                    <p>캐릭터 이름: ${profile.CharacterName}</p>
-                    <p>캐릭터 레벨: ${profile.CharacterLevel}</p>
-                    <p>캐릭터 클래스: ${profile.CharacterClassName}</p>
-                    <p>아이템 평균 레벨: ${profile.ItemAvgLevel}</p>
-                    <p>최대 아이템 레벨: ${profile.ItemMaxLevel}</p>
-                    <p>원정대 레벨: ${profile.ExpeditionLevel}</p>
-                    <p>PVP 등급: ${profile.PvpGradeName}</p>
-                    <p>영지 레벨: ${profile.TownLevel}</p>
-                    <p>영지명: ${profile.TownName}</p>
-                    <p>칭호: ${profile.Title}</p>
-                    <p>길드명: ${profile.GuildName ? profile.GuildName : '없음'}</p>
-                    <p>사용 스킬 포인트: ${profile.UsingSkillPoint} / ${profile.TotalSkillPoint}</p>
+                    <p>서버 이름: <span style="font-weight: bold;">${profile.ServerName}</span></p>
+                    <p>캐릭터 이름: <span style="font-weight: bold;">${profile.CharacterName}</span></p>
+                    <p>캐릭터 레벨: <span style="font-weight: bold;">${profile.CharacterLevel}</span></p>
+                    <p>캐릭터 클래스: <span style="font-weight: bold;">${profile.CharacterClassName}</span></p>
+                    <p>아이템 평균 레벨: <span style="font-weight: bold;">${profile.ItemAvgLevel}</span></p>
+                    <p>최대 아이템 레벨: <span style="font-weight: bold;">${profile.ItemMaxLevel}</span></p>
+                    <p>원정대 레벨: <span style="font-weight: bold;">${profile.ExpeditionLevel}</span></p>
+                    <p>PVP 등급: <span style="font-weight: bold;">${profile.PvpGradeName}</span></p>
+                    <p>영지 레벨: <span style="font-weight: bold;">${profile.TownLevel}</span></p>
+                    <p>영지명: <span style="font-weight: bold;">${profile.TownName}</span></p>
+                    <p>칭호: <span style="font-weight: bold;">${profile.Title}</span></p>
+                    <p>길드명: <span style="font-weight: bold;">${profile.GuildName ? profile.GuildName : '없음'}</span></p>
+                    <p>사용 스킬 포인트: <span style="font-weight: bold;">${profile.UsingSkillPoint} / ${profile.TotalSkillPoint}</span></p>
                 </div>
             </div>
             <div class="stat-section">
                 ${profile.Stats.map(stat => `
-                    <div class="tooltip">${stat.Type}: ${stat.Value}
+                    <div class="tooltip">${stat.Type}: <span style="font-weight: bold;">${stat.Value}</span>
                         <span class="tooltiptext">${stat.Tooltip.join('<br>').replace(/"/g, '&quot;')}</span>
                     </div>
                 `).join('<br>')}
                 ${profile.Tendencies.map(tendency => `
-                    <p>${tendency.Type}: ${tendency.Point}</p>
+                    <p>${tendency.Type}: <span style="font-weight: bold;">${tendency.Point}</span></p>
                 `).join('')}
             </div>
         </div>
@@ -147,7 +154,7 @@ function displayCharacterInfo(data) {
         document.getElementById('characterInfo').innerHTML = characterInfoHTML;
 }
 
-const itemsContainer = document.createElement('div');
+var itemsContainer = document.createElement('div');
 itemsContainer.className = "items-container";
 
 function displayEquipmentInfo(data){
@@ -209,7 +216,7 @@ function displayEquipmentInfo(data){
         accessoryContainer.style.flexBasis = '30%'; // flex 아이템 기본 너비 설정
         var accessoryTitle = document.createElement('h3');
         accessoryTitle.className = "accessory-title"; // 클래스 이름 추가
-        accessoryTitle.textContent = "액세서리 정보";
+        accessoryTitle.textContent = "악세서리 정보";
         accessoryContainer.appendChild(accessoryTitle);
 
         var equipmentData = data.ArmoryEquipment;
