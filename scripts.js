@@ -51,18 +51,6 @@ async function calculateBid() {
   document.getElementById('maxValue').textContent = maxValue.toFixed(0);
 }
 
-// Netlify Function을 사용하여 데이터를 가져오는 함수
-function fetchData() {
-    fetch('/.netlify/functions/fetch-data')
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        // 데이터 처리 로직
-        displayCharacterData(data); // 예제 함수, 실제 구현 필요
-      })
-      .catch(error => console.error('Error fetching data:', error));
-  }
-
 function showPopup(name, basicEffect, additionalEffect, elixirEffectHTML) {
     let popupContent = `<h3>${name}</h3>`;
 
@@ -90,16 +78,18 @@ document.getElementById('closePopup').addEventListener('click', function() {
 });
 
 function searchCharacter() {
-    let characterInfoHTML = ''; // characterInfoHTML 변수 초기화
-    const characterName = document.getElementById('characterName').value;
-    
-    if (!characterName) {
-      alert('캐릭터 이름을 입력해주세요.');
-      return;
-    }
+    var characterInfoHTML = ''; // characterInfoHTML 변수 초기화
+    var characterName = document.getElementById('characterName').value;
+    var armoriesEndpoint = `https://developer-lostark.game.onstove.com/armories/characters/${encodeURIComponent(characterName)}`;
+    document.getElementById('equipmentList').innerHTML = ''; // 장비 리스트 컨테이너 초기화
 
-    // Netlify Function을 호출하여 캐릭터 정보를 검색
-    fetch(`/.netlify/functions/fetch-data?name=${encodeURIComponent(characterName)}`)
+    fetch(armoriesEndpoint, {
+        method: 'GET',
+        headers: {
+            'accept': 'application/json',
+            'authorization': 'bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IktYMk40TkRDSTJ5NTA5NWpjTWk5TllqY2lyZyIsImtpZCI6IktYMk40TkRDSTJ5NTA5NWpjTWk5TllqY2lyZyJ9.eyJpc3MiOiJodHRwczovL2x1ZHkuZ2FtZS5vbnN0b3ZlLmNvbSIsImF1ZCI6Imh0dHBzOi8vbHVkeS5nYW1lLm9uc3RvdmUuY29tL3Jlc291cmNlcyIsImNsaWVudF9pZCI6IjEwMDAwMDAwMDA0NTY2NDAifQ.pY2pJBU63yCBuphlcFGiJp9zteOBdbbwsKBYgyfmiKTqzHjqkhFS6wCv2t2NZtZ_IXbqaMY6QPS8ykhkU_2lizja8sB9BSjkZFiX9aZacEBTO-rgWhhfdCgXZ1yjHJwWqf3rvVd3G94oaF2AGpYBIx4HmHKKY36R1jC8gdv6-Zrz_J8MgbCjGC7P7NqEeAOeyxzkrCESSlPWr4pf6MfvZjvy6IBKfOtIC4sYw_qdpC6HvJtH6oSW12wxeR6Vh43R8atlqX-aMoNdmP2ST7coFqqdX-TIn4pHNLJ014NQXDbuqORDMAdHn638CuiiBLlGJkE0zzhXZGgeYae-2cdpTQ' // 보안 관련 주의 사항에 따라 수정
+        }
+    })
     .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -107,7 +97,8 @@ function searchCharacter() {
         return response.json();
     })
     .then(data => {
-        const profile = data.ArmoryProfile; // 'data' 형식과 내용은 실제 응답 데이터에 따라 다를 수 있습니다.
+        var armoriesData = data;
+        var profile = armoriesData.ArmoryProfile;
         characterInfoHTML += `
         <div class="container">
             <div class="left-section">
