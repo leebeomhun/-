@@ -60,7 +60,7 @@ function showPopup(name, basicEffect, additionalEffect, elixirEffectHTML) {
     }
 
     // additionalEffect가 "정보 없음"이 아닐 경우에만 해당 내용을 추가
-    if (additionalEffect !== "정보 없음" && additionalEffect !== undefined) {
+    if (additionalEffect !== "정보 없음" && additionalEffect !== undefined && additionalEffect !== "") {
         popupContent += `<p>추가 효과: ${additionalEffect}</p>`;
     }
 
@@ -78,11 +78,13 @@ document.getElementById('closePopup').addEventListener('click', function() {
 });
 
 function searchCharacter() {
-    var characterInfoHTML = ''; // characterInfoHTML 변수 초기화
     var characterName = document.getElementById('characterName').value;
     var armoriesEndpoint = `https://developer-lostark.game.onstove.com/armories/characters/${encodeURIComponent(characterName)}`;
-    document.getElementById('equipmentList').innerHTML = ''; // 장비 리스트 컨테이너 초기화
 
+    // 장비 리스트 컨테이너 초기화
+    document.getElementById('equipmentList').innerHTML = '';
+
+    // 캐릭터 기본 정보를 가져옴
     fetch(armoriesEndpoint, {
         method: 'GET',
         headers: {
@@ -97,7 +99,16 @@ function searchCharacter() {
         return response.json();
     })
     .then(data => {
-        var armoriesData = data;
+        displayCharacterInfo(data);
+        displayEquipmentInfo(data);
+        displayEngravingsInfo(data);
+    })
+    .catch(error => console.error('There has been a problem with your fetch operation:', error));
+}
+
+function displayCharacterInfo(data) {
+    var characterInfoHTML = '';
+    var armoriesData = data;
         var profile = armoriesData.ArmoryProfile;
         characterInfoHTML += `
         <div class="container">
@@ -134,10 +145,20 @@ function searchCharacter() {
         </div>
         `;
         document.getElementById('characterInfo').innerHTML = characterInfoHTML;
+}
 
+const itemsContainer = document.createElement('div');
+itemsContainer.className = "items-container";
+
+function displayEquipmentInfo(data){
         var equipmentData = data.ArmoryEquipment;
-        var equipmentContainer = document.createElement('div');
+        const equipmentContainer = document.createElement('div');
         equipmentContainer.className = "equipment-container";
+        equipmentContainer.style.flexBasis = '30%'; // flex 아이템 기본 너비 설정
+        var equipmentTitle = document.createElement('h3');
+        equipmentTitle.className = "equipment-title"; // 클래스 이름 추가
+        equipmentTitle.textContent = "장비 정보";
+        equipmentContainer.appendChild(equipmentTitle);
         
         equipmentData.forEach((equipment, i) => {
             if (i < 6) { // 처음 6개의 아이템만 처리
@@ -176,15 +197,18 @@ function searchCharacter() {
                 // 장비 아이템을 컨테이너에 추가
                 equipmentContainer.appendChild(equipmentItem);
             }
+            
         });
-        
+        itemsContainer.appendChild(equipmentContainer);
         // 장비 컨테이너를 페이지에 추가
-        document.getElementById('equipmentList').appendChild(equipmentContainer);
+        document.getElementById('equipmentList').appendChild(itemsContainer);
         
         // 액세서리 정보 섹션
-        var accessoryContainer = document.createElement('div');
+        const accessoryContainer = document.createElement('div');
         accessoryContainer.className = "accessory-section";
+        accessoryContainer.style.flexBasis = '30%'; // flex 아이템 기본 너비 설정
         var accessoryTitle = document.createElement('h3');
+        accessoryTitle.className = "accessory-title"; // 클래스 이름 추가
         accessoryTitle.textContent = "액세서리 정보";
         accessoryContainer.appendChild(accessoryTitle);
 
@@ -225,125 +249,86 @@ function searchCharacter() {
                 accessoryContainer.appendChild(accessoryItem);
             }
         });
-
-        // 액세서리 컨테이너를 페이지에 추가
-        document.getElementById('equipmentList').appendChild(accessoryContainer);
-    })
-    .catch(error => console.error('There has been a problem with your fetch operation:', error));
-}
-
-
-
-    //api부분시작
-    /*function searchCharacter() {
-    var characterInfoHTML = ''; // characterInfoHTML 변수 초기화
-    var characterName = document.getElementById('characterName').value;
-    var armoriesEndpoint = `https://developer-lostark.game.onstove.com/armories/characters/${encodeURIComponent(characterName)}`;
-    var armoriesRequest = new XMLHttpRequest();
-    armoriesRequest.open("GET", armoriesEndpoint, true);
-    armoriesRequest.setRequestHeader('accept', 'application/json');
-    armoriesRequest.setRequestHeader('authorization', 'bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IktYMk40TkRDSTJ5NTA5NWpjTWk5TllqY2lyZyIsImtpZCI6IktYMk40TkRDSTJ5NTA5NWpjTWk5TllqY2lyZyJ9.eyJpc3MiOiJodHRwczovL2x1ZHkuZ2FtZS5vbnN0b3ZlLmNvbSIsImF1ZCI6Imh0dHBzOi8vbHVkeS5nYW1lLm9uc3RvdmUuY29tL3Jlc291cmNlcyIsImNsaWVudF9pZCI6IjEwMDAwMDAwMDA0NTY2NDAifQ.pY2pJBU63yCBuphlcFGiJp9zteOBdbbwsKBYgyfmiKTqzHjqkhFS6wCv2t2NZtZ_IXbqaMY6QPS8ykhkU_2lizja8sB9BSjkZFiX9aZacEBTO-rgWhhfdCgXZ1yjHJwWqf3rvVd3G94oaF2AGpYBIx4HmHKKY36R1jC8gdv6-Zrz_J8MgbCjGC7P7NqEeAOeyxzkrCESSlPWr4pf6MfvZjvy6IBKfOtIC4sYw_qdpC6HvJtH6oSW12wxeR6Vh43R8atlqX-aMoNdmP2ST7coFqqdX-TIn4pHNLJ014NQXDbuqORDMAdHn638CuiiBLlGJkE0zzhXZGgeYae-2cdpTQ'); // 보안 관련 주의 사항에 따라 수정
-
-    armoriesRequest.onreadystatechange = function () {
-        if (armoriesRequest.readyState === XMLHttpRequest.DONE) {
-            var status = armoriesRequest.status;
-            if (status === 0 || (status >= 200 && status < 400)) {
-                var armoriesData = JSON.parse(armoriesRequest.responseText);
-                var profile = armoriesData.ArmoryProfile;
-                characterInfoHTML += `
-                    <div class="container">
-                        <div class="left-section">
-                            <img src="${profile.CharacterImage}" alt="캐릭터 이미지">
-                        </div>
-                        <div class="right-section">
-                            <div class="basic-info-section">
-                                <p>서버 이름: ${profile.ServerName}</p>
-                                <p>캐릭터 이름: ${profile.CharacterName}</p>
-                                <p>캐릭터 레벨: ${profile.CharacterLevel}</p>
-                                <p>캐릭터 클래스: ${profile.CharacterClassName}</p>
-                                <p>아이템 평균 레벨: ${profile.ItemAvgLevel}</p>
-                                <p>최대 아이템 레벨: ${profile.ItemMaxLevel}</p>
-                                <p>원정대 레벨: ${profile.ExpeditionLevel}</p>
-                                <p>PVP 등급: ${profile.PvpGradeName}</p>
-                                <p>영지 레벨: ${profile.TownLevel}</p>
-                                <p>영지명: ${profile.TownName}</p>
-                                <p>칭호: ${profile.Title}</p>
-                                <p>길드명: ${profile.GuildName ? profile.GuildName : '없음'}</p>
-                                <p>사용 스킬 포인트: ${profile.UsingSkillPoint} / ${profile.TotalSkillPoint}</p>
-                            </div>
-                        </div>
-                        <div class="stat-section">
-                            ${profile.Stats.map(stat => `
-                                <div class="tooltip">${stat.Type}: ${stat.Value}
-                                    <span class="tooltiptext">${stat.Tooltip.join('<br>').replace(/"/g, '&quot;')}</span>
-                                </div>
-                            `).join('<br>')}
-                            ${profile.Tendencies.map(tendency => `
-                                <p>${tendency.Type}: ${tendency.Point}</p>
-                            `).join('')}
-                        </div>
-                    </div>
-                `;
-                var equipmentData = armoriesData.ArmoryEquipment;
-                var equipmentHTML = '<div class="equipment-container">';
-
-                // 일반 장비 정보 섹션
-                equipmentHTML += '<div class="equipment-section"><h3>일반 장비 정보</h3>';
-                for (let i = 0; i < equipmentData.length && i < 6; i++) {
-                    let equipment = equipmentData[i];
-                    equipmentHTML += `
-                        <div class="equipment-item">
-                            <img src="${equipment.Icon}" alt="${equipment.Name}" style="width: 30px; height: 30px;">
-                            <p>${equipment.Name}</p>
-                            <p>등급: ${equipment.Grade}</p>
-                        </div>
-                    `;
-                }
-                equipmentHTML += '</div>'; // 일반 장비 정보 섹션 종료
-                
-                // 액세서리 정보 섹션
-                equipmentHTML += '<div class="accessory-section"><h3>액세서리 정보</h3>';
-                for (let i = 6; i < equipmentData.length && i < 13; i++) {
-                    let equipment = equipmentData[i];
-                    equipmentHTML += `
-                        <div class="equipment-acc">
-                            <img src="${equipment.Icon}" alt="${equipment.Name}" style="width: 30px; height: 30px;">
-                            <p>${equipment.Name}</p>
-                            <p>등급: ${equipment.Grade}</p>
-                        </div>
-                    `;
-                }
-                equipmentHTML += '</div>'; // 액세서리 정보 섹션 종료
-                
-                equipmentHTML += '</div>'; // 전체 컨테이너 종료
-
-                // 캐릭터 정보와 함께 장비 정보를 페이지에 추가
-                document.getElementById('characterInfo').innerHTML = characterInfoHTML + equipmentHTML;
-            } else {
-                console.error('ARMORIES 정보 요청 실패:', armoriesRequest.statusText);
-            }
-        }
-    };
-    armoriesRequest.send();
+        itemsContainer.appendChild(accessoryContainer);
+        // 장비 컨테이너를 페이지에 추가
+        document.getElementById('equipmentList').appendChild(itemsContainer);
     }
-    */
-                
 
-    /*        // 액세서리 정보 섹션
-        equipmentHTML += '<div class="accessory-section"><h3>액세서리 정보</h3>';
-        for (let i = 6; i < equipmentData.length; i++) {
-            let equipment = equipmentData[i];
-            equipmentHTML += `
-                <div class="equipment-acc">
-                    <img src="${equipment.Icon}" alt="${equipment.Name}" style="width: 30px; height: 30px;">
-                    <p>${equipment.Name}</p>
-                    <p>등급: ${equipment.Grade}</p>
-                </div>
-            `;
+    function parseEngravingTooltip(tooltipData) {
+        let tooltipContent = "";
+    
+        // "Element_002"에서 각인의 상세 효과 정보를 추출
+        if (tooltipData["Element_002"]) {
+            tooltipContent += `<p>${tooltipData["Element_002"].value}</p>`;
         }
-        equipmentHTML += '</div>'; // 액세서리 정보 섹션 종료
-                
-        equipmentHTML += '</div>'; // 전체 컨테이너 종료
-
-        // 캐릭터 정보와 함께 장비 정보를 페이지에 추가
-        document.getElementById('characterInfo').innerHTML = characterInfoHTML + equipmentHTML;*/
+    
+        // "Element_003"에서 레벨 별 효과 정보를 추출
+        if (tooltipData["Element_003"]) {
+            const levelEffects = tooltipData["Element_003"].value;
+            tooltipContent += `<p>${levelEffects.Element_000}</p>`;
+            tooltipContent += `<p>${levelEffects.Element_001}</p>`;
+        }
+    
+        return tooltipContent;
+    }
+    
+    function displayEngravingsInfo(data) {
+        // `data.ArmoryEngraving.Engravings`로 경로 수정
+        // 각인 정보 섹션 생성
+        const engravingsContainer = document.createElement('div');
+        engravingsContainer.className = 'engravings-section';
+        var engravingsTitle = document.createElement('h3');
+        engravingsTitle.className = "engravings-title"; // 클래스 이름 추가
+        engravingsTitle.textContent = '각인 정보';
+        engravingsContainer.appendChild(engravingsTitle);
+    
+        var engravingsinven = document.createElement('h2');
+        engravingsinven.className = "engravings-inven"; // 클래스 이름 추가
+        engravingsinven.textContent = '장착 각인';
+        engravingsContainer.appendChild(engravingsinven);
+        var engravingsData = data.ArmoryEngraving.Engravings;
+        engravingsData.forEach(engraving => {
+            // 각인정보 DOM 요소 생성
+                const engravingsinfo = document.createElement('div');
+                engravingsinfo.className = 'engravingsinfo-info';
+                engravingsinfo.innerHTML = `
+                    <img src="${engraving.Icon}" alt="${engraving.Name}" style="width: 30px; height: 30px;">
+                    <p>${engraving.Name}</p>
+                `;
+                // 클릭 이벤트 리스너 추가
+                engravingsinfo.addEventListener('click', () => {
+                    const tooltipData = JSON.parse(engraving.Tooltip.replace(/\r\n/g, "").replace(/\\"/g, '"').replace(/<FONT COLOR='#FFFFAC'>/g, "<FONT COLOR='#0000FF'>"));
+                    const tooltipContent = parseEngravingTooltip(tooltipData);
+                    showPopup(engraving.Name, tooltipContent, "", "");
+                });
+                // 각인정보 컨테이너에 추가
+                engravingsContainer.appendChild(engravingsinfo);
+            }
+        )
+        var Effectsinven = document.createElement('h2');
+        Effectsinven.className = "Effects-inven"; // 클래스 이름 추가
+        Effectsinven.textContent = '전체 각인';
+        engravingsContainer.appendChild(Effectsinven);
+        var EffectsData = data.ArmoryEngraving.Effects;
+        EffectsData.forEach(Effects => {
+            // 각인 효과 DOM 요소 생성
+            const Effectsinfo = document.createElement('div');
+            Effectsinfo.className = 'Effectsinfo-info';
+            Effectsinfo.innerHTML = `
+                <img src="${Effects.Icon}" alt="${Effects.Name}" style="width: 30px; height: 30px;">
+                <p>${Effects.Name}</p>
+            `;
+            Effectsinfo.addEventListener('click', () => {
+                // 효과 설명을 직접 전달
+                showPopup(Effects.Name, Effects.Description, "", ""); // 추가 효과나 엘릭서 효과가 없는 경우 빈 문자열 전달
+            });
+            // 각인효과 을 컨테이너에 추가
+            engravingsContainer.appendChild(Effectsinfo);
+        }
+    )
+        itemsContainer.appendChild(engravingsContainer);
+        // 장비 컨테이너를 페이지에 추가
+        document.getElementById('equipmentList').appendChild(itemsContainer);
+    }
+    
+    

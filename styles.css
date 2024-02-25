@@ -151,19 +151,24 @@ input, select, button {
   .stat-section  {
     flex: 1
   }
-  .equipment-container {
+.items-container{
     display: flex;
-    align-items: flex-start;
-    gap: 10px;
 }
 
-.equipment-section {
-    margin-right: 20px;
-    flex: 1
+  .equipment-container, .accessory-section, .engravings-section{
+    flex-basis: 30%;
+    display: flex;
+    flex-direction: column; /* 섹션 내 아이템을 세로로 정렬 */
+    align-items: center; /* 센터 정렬 */
+    margin: 10px; /* 각 섹션 사이의 마진 */
+    text-align: center; /* 텍스트 정렬 */
+    background-color: #f3f3f3;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-.accessory-section{
-    flex: 2;
-}
+
+
 /* 팝업 스타일 */
 #popupContainer {
     display: none;
@@ -171,7 +176,7 @@ input, select, button {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    background-color: rgb(255, 255, 255);
+    background-color: #f3f3f3;
     border: 1px solid rgb(10, 10, 10);
     border-radius : 10px;
     padding: 20px;
@@ -180,4 +185,32 @@ input, select, button {
 .equipment-item img {
     cursor: pointer;
 }
+.accessory-title {
+    font-size: 24px; /* 폰트 크기 */
+    color: #333; /* 폰트 색상 */
+    font-weight: bold; /* 폰트 굵기 */
+    text-align: center; /* 텍스트 정렬 */
+    margin-bottom: 10px; /* 아래쪽 여백 */
+    /* 여기에 추가 스타일을 더 정의할 수 있습니다. */
+  }
 
+  .equipment-title {
+    font-size: 24px; /* 폰트 크기 */
+    color: #333; /* 폰트 색상 */
+    font-weight: bold; /* 폰트 굵기 */
+    text-align: center; /* 텍스트 정렬 */
+    margin-bottom: 10px; /* 아래쪽 여백 */
+    /* 여기에 추가 스타일을 더 정의할 수 있습니다. */
+  }
+  .engravings-title {
+    font-size: 24px; /* 폰트 크기 */
+    color: #333; /* 폰트 색상 */
+    font-weight: bold; /* 폰트 굵기 */
+    text-align: center; /* 텍스트 정렬 */
+    margin-bottom: 10px; /* 아래쪽 여백 */
+    /* 여기에 추가 스타일을 더 정의할 수 있습니다. */
+  }
+
+.Effects-inven, .engravings-inven{
+    font-weight: bold; /* 폰트 굵기 */
+}
